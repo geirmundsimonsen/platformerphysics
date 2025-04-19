@@ -8,4 +8,4 @@ crate-type = ["cdylib"]
 
 [dependencies]
 libc = "0.2"
-rapier2d = "0.24"
+rapier2d-f64 = "0.24"
