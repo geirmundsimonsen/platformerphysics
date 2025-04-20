@@ -105,3 +105,24 @@ impl PhysicsContext {
     self.collider_set.insert_with_parent(collider, rigid_body_handle, &mut self.rigid_body_set)
   }
 }
+
+#[cfg(test)]
+mod tests {
+  use super::*;
+
+  #[ignore]
+  #[test]
+  fn test() {
+    let mut pc = PhysicsContext::new();
+
+    pc.add_collider_cuboid(100.0, 0.1);
+    let handle = pc.add_rigid_body_dynamic(0.0, 9998.0);
+    pc.add_collider_ball_with_parent(handle, 0.5, 0.7);
+  
+    for _ in 0..3000 {
+      pc.step();
+      let (index, generation) = handle.into_raw_parts();
+      println!("Ball altitude: {}", pc.get_body_translation_y(index, generation).unwrap());
+    }
+  }
+}

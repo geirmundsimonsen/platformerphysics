@@ -1,10 +1,10 @@
 
-use rapier2d_f64::prelude::*;
 use std::ffi::c_void;
 
-mod test;
 mod test_stream;
 mod springwaves;
+mod event_test;
+mod ppm;
 
 #[no_mangle]
 pub extern "C" fn add(a: i32, b: i32) -> i32 {
@@ -82,23 +82,3 @@ pub extern "C" fn get_body_translation_y(context_ptr: *mut c_void, handle_index:
   }
 }
 
-#[cfg(test)]
-mod tests {
-  use super::*;
-
-  #[ignore]
-  #[test]
-  fn test() {
-    let mut pc = test_stream::PhysicsContext::new();
-
-    pc.add_collider_cuboid(100.0, 0.1);
-    let handle = pc.add_rigid_body_dynamic(0.0, 9998.0);
-    pc.add_collider_ball_with_parent(handle, 0.5, 0.7);
-  
-    for _ in 0..3000 {
-      pc.step();
-      let (index, generation) = handle.into_raw_parts();
-      println!("Ball altitude: {}", pc.get_body_translation_y(index, generation).unwrap());
-    }
-  }
-}
